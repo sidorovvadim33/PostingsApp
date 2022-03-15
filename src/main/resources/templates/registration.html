@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link media="all" rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" type="text/css"/>
+</head>
+<body>
+<div class="main-app-form">
+    <form th:action="@{/registration}" method="post" th:object="${userForm}">
+        <h2>Регистрация</h2>
+        <div>
+            <label>
+                <input type="text" th:field="*{username}" placeholder="Логин">
+            </label>
+            <label>
+                <input type="password" th:field="*{password}" placeholder="Пароль">
+            </label>
+            <label>
+                <input type="password" th:field="*{passwordConfirm}" placeholder="Подтвердите пароль">
+                <span class="error" th:text="${passwordError}"></span>
+                <span class="error" th:text="${usernameError}"></span>
+            </label>
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+        <p class="message">Передумали регистрироваться? <a href="/">На главную</a></p>
+    </form>
+</div>
+</body>
+</html>

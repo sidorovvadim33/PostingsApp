@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>SpringStud</title>
+    <link media="all" rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" type="text/css"/>
+</head>
+<body>
+<div>
+    <div class="app-header" sec:authorize="isAuthenticated()">
+        <h1 th:text="${#authentication.getName()}"></h1>
+        <h4><a href="/posts">Новости</a></h4>
+        <h4 sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin">Пользователи</a></h4>
+        <button onclick="document.location='/logout'">Выйти</button>
+    </div>
+    <div class="app-header" sec:authorize="!isAuthenticated()">
+        <h1>WELCOME</h1>
+        <a href="/login">ВОЙТИ</a>
+    </div>
+</div>
+</body>
+</html>

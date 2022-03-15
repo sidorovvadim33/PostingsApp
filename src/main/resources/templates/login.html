@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link media="all" rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" type="text/css"/>
+</head>
+<body>
+<div class="main-app-form">
+    <form method="post" action="/login">
+        <h2>Вход в систему</h2>
+        <div>
+            <input name="username" type="text" placeholder="Имя пользователя"
+                   autofocus="true"/>
+            <input name="password" type="password" placeholder="Пароль"/>
+            <p th:if="${param.error}" class="error">
+                Неверное имя пользователя или пароль.
+            </p>
+            <button type="submit">Войти</button>
+            <div class="auth-lower-block">
+                <a href="/registration">Зарегистрироваться</a></p>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

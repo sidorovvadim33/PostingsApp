@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link media="all" rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" type="text/css"/>
+</head>
+<body>
+<div>
+    <h2>Зарегистрированные пользователи</h2>
+
+    <a href="/">Главная</a>
+    <table class="admins-user-table">
+        <thead>
+        <th>ID</th>
+        <th>UserName</th>
+        <th>Password</th>
+        <th>Roles</th>
+        </thead>
+        <tr th:each="user: ${allUsers}">
+            <td th:text="${user.id}">
+            <td th:text="${user.username}">
+            <td th:text="${user.password}">
+            <td>
+                <p th:each="role: ${user.roles}">
+                    <span th:text="${role.name}"></span></td>
+            </p>
+            <td>
+                <div th:if="${user.username != #authentication.getName()}">
+                    <form th:action="@{/admin}" method="post">
+                        <input type="hidden" name="userId" th:value="${user.id}">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+                <div th:if="${user.username == #authentication.getName()}">
+                    <p>Ваш аккаунт</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

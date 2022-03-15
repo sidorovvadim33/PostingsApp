@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link media="all" rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" type="text/css"/>
+</head>
+<body>
+<div id="specificPost" class="specific-post">
+    <a href="/posts">Назад</a>
+    <h2 th:text="${specificPost.title}"></h2>
+    <div class="specific-post-dates">
+        <p>Создано:
+        <p th:text="${#dates.format(specificPost.createdAt, 'dd-MM-yyyy HH:mm')}"></p>
+        </p>
+        <div th:if="${specificPost.updatedAt != specificPost.createdAt}">
+            <p>Изменено:
+            <p th:text="${#dates.format(specificPost.updatedAt, 'dd-MM-yyyy HH:mm')}"></p>
+        </div>
+        </p>
+    </div>
+    <div class="specific-post-body">
+        <p th:text="${specificPost.body}"></p>
+    </div>
+    <div class="specific-post-author">
+        <p th:text="${specificPost.user.username}"></p>
+    </div>
+
+    <div class="specific-post-comments">
+        <tr id="comments" th:each="comment: ${allPostComments}">
+            <div class="comments">
+                <div class="comment-date">
+                    <p>Создано:
+                    <td th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}">
+                    </p>
+                    <p th:if="${comment.updatedAt != comment.createdAt}">Изменено:
+                    <td th:text="${#dates.format(comment.updatedAt, 'dd-MM-yyyy HH:mm')}">
+                    </p>
+                </div>
+                <div class="comment-body">
+                    <td th:text="${comment.body}">
+                </div>
+                <div class="comment-author">
+                    <td th:text="${comment.user.username}"></td>
+                </div>
+            </div>
+        </tr>
+
+        <div class="newCommentForm">
+            <form id="add-comment-form" th:action="@{/addComment/(postId=${specificPost.id})}" method="post"
+                  th:object="${commentForm}">
+                <div>
+                    <label>
+                        <textarea placeholder="Написать комментарий..." name="body" th:field="*{body}" rows="10"
+                                  cols="30"></textarea>
+                    </label>
+                </div>
+                <button type="submit">Опубликовать</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link media="all" rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" type="text/css"/>
+    <script>
+        function showDiv() {
+            document.getElementById('newPostForm').style.display = "block";
+        }
+
+        function closeDiv() {
+            document.getElementById('newPostForm').style.display = "none";
+        }
+    </script>
+</head>
+<body>
+<div>
+    <h2>Обсуждения</h2>
+
+    <div class="posts-header-elements">
+        <a href="/">Главная</a>
+        <button id="how-add-post-form" onclick="showDiv()">Новый пост</button>
+    </div>
+
+
+    <tr id="posts" th:each="post: ${allPosts}">
+        <div class="posts">
+            <div class="post-date">
+                <p>Создано:
+                <td th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy HH:mm')}">
+                </p>
+                <p th:if="${post.updatedAt != post.createdAt}">Изменено:
+                <td th:text="${#dates.format(post.updatedAt, 'dd-MM-yyyy HH:mm')}">
+                </p>
+            </div>
+            <div class="post-title">
+                <td>
+                    <a th:href="@{/post(id=${post.id})}" th:text="${post.title}"></a>
+                </td>
+            </div>
+            <div class="post-body">
+                <td th:text="${post.body}">
+                    <br>
+                    <a href="/posts">Комментарии</a>
+            </div>
+        </div>
+    </tr>
+</div>
+
+<div id="newPostForm" style="display: none" class="newPostForm">
+    <form id="add-post-form" th:action="@{/posts}" method="post" th:object="${postForm}">
+        <span onclick="closeDiv()" class="close">x</span>
+        <h2>Новый пост</h2>
+        <div>
+            <label>
+                <input type="text" name="title" th:field="*{title}" placeholder="Название">
+            </label>
+            <label>
+                <textarea placeholder="Текст" name="body" th:field="*{body}" rows="10" cols="30"></textarea>
+            </label>
+        </div>
+        <button type="submit">Опубликовать</button>
+    </form>
+</div>
+</body>
+</html>
